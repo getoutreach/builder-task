@@ -79,8 +79,15 @@ if [ -e ./cache/whiteouts ]; then
   done
 fi
 
+# Add env vars as build args
+ENV_VARS=$(printenv | awk -F'=' {'print $1'} | grep -ve '^_')
+BUILD_ARGS=''
+for e in $ENV_VARS; do
+  BUILD_ARGS="${BUILD_ARGS} --build-arg ${e}=$(eval(${e}))"
+done
+
 progress "building"
-img build -s /scratch/state -t $REPOSITORY:$TAG -f $DOCKERFILE $CONTEXT
+img build -s /scratch/state -t $REPOSITORY:$TAG -f $DOCKERFILE $CONTEXT $BUILD_ARGS
 
 if [ -d ./cache ]; then
   progress "syncing state to cache"
