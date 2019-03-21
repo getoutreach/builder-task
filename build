@@ -83,7 +83,7 @@ fi
 ENV_VARS=$(printenv | awk -F'=' {'print $1'} | grep -ve '^_')
 BUILD_ARGS=''
 for e in $ENV_VARS; do
-  BUILD_ARGS="${BUILD_ARGS} --build-arg ${e}=$(eval(${e}))"
+  BUILD_ARGS="${BUILD_ARGS} --build-arg ${e}=$(${e})"
 done
 
 progress "building"
