@@ -80,7 +80,7 @@ if [ -e ./cache/whiteouts ]; then
 fi
 
 progress "building"
-img build -s /scratch/state -t $REPOSITORY:$TAG -f $DOCKERFILE $CONTEXT $BUILD_ARGS
+eval "img build -s /scratch/state -t $REPOSITORY:$TAG -f $DOCKERFILE $BUILD_ARGS $CONTEXT"
 
 if [ -d ./cache ]; then
   progress "syncing state to cache"
@@ -101,4 +101,4 @@ if [ -d ./cache ]; then
 fi
 
 progress "saving image"
-img save -s /scratch/state -o image/image.tar $REPOSITORY:$TAG
+img save -s /scratch/state -o $OUTPUT/image.tar $REPOSITORY:$TAG
